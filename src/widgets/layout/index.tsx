@@ -15,7 +15,7 @@ export const PageLayout = ({
           <h1 className="font-semibold">{title}</h1>
         </div>
       </header>
-      <div className="p-6 flex-1">{children}</div>
+      <div className="p-12 flex-1">{children}</div>
     </div>
   );
 };
