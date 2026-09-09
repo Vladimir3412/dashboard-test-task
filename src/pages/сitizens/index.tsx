@@ -1,17 +1,18 @@
-import { sidebarItems } from "@/shared/config/index";
-import Dashboard from "@/widgets/dashboard";
+import { sidebarItems } from "@/shared/config";
 import { PageLayout } from "@/widgets/layout";
+import Citizens from "@/widgets/сitizens/index";
 import { useLocation } from "react-router-dom";
-const DashboardPage = () => {
+
+const CitizensPage = () => {
   const { pathname } = useLocation();
   const title =
     sidebarItems.find((item) => item.href === pathname)?.title ?? "Страница";
 
   return (
     <PageLayout title={title}>
-      <Dashboard />
+      <Citizens />
     </PageLayout>
   );
 };
 
-export default DashboardPage;
+export default CitizensPage;
