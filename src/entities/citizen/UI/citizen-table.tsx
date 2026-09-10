@@ -31,7 +31,7 @@ const CitizenTable = () => {
         {citizen.slice(0, 10).map((item) => (
           <TableRow key={item.id} className="cursor-pointer hover:bg-muted/80">
             <TableCell className="font-medium">
-              {item.firstName} {item.lastName}
+              {item.lastName} {item.firstName} {item.middleName}
             </TableCell>
             <TableCell>{FORMAT_DATETIME(item.birthDay)} г.</TableCell>
             <TableCell>{item.gender}</TableCell>
@@ -44,7 +44,7 @@ const CitizenTable = () => {
                   item.status === "Активный"
                     ? "green"
                     : item.status === "Неактивный"
-                      ? "outline"
+                      ? "default"
                       : "yellow"
                 }
                 className="text-center"

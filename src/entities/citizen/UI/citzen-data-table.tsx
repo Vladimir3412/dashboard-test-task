@@ -11,6 +11,7 @@ import { useTable, type ColumnDef } from "@tanstack/react-table";
 import { features, type DataTableFeatures } from "./data-table-features";
 import { Button } from "@/components/ui/button";
 import { MoveLeft, MoveRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface CitizenDataTableProps {
   columns: ColumnDef<DataTableFeatures, Citizen>[];
@@ -24,6 +25,7 @@ export function CitizenDataTable({ columns, data }: CitizenDataTableProps) {
     columns,
   });
 
+  const navigate = useNavigate();
   return (
     <div className="overflow-hidden rounded-lg border-1">
       <Table className=" w-full ">
@@ -48,6 +50,7 @@ export function CitizenDataTable({ columns, data }: CitizenDataTableProps) {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                onClick={() => navigate(`${row.original.id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

@@ -10,7 +10,7 @@ export const PageLayout = ({
   return (
     <div className="flex flex-col h-full">
       <header className="border-b border-border px-2 h-12 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <SidebarTrigger size="icon-lg" />
           <h1 className="font-semibold">{title}</h1>
         </div>

@@ -3,9 +3,9 @@ import type { CitizenStatus } from "@/entities/citizen/model";
 import type { Citizen } from "@/shared/mocks/citizen";
 
 const statuses: CitizenStatus[] = ["Активный", "Неактивный", "На рассмотрении"];
-faker.seed(1);
+let counter = 1;
 export const generateCitizen = (): Citizen => ({
-  id: faker.string.ulid(),
+  id: String(counter++),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   middleName: faker.person.middleName(),
@@ -18,5 +18,7 @@ export const generateCitizen = (): Citizen => ({
   createdAt: faker.date.recent({ days: 365 }),
   status: faker.helpers.arrayElement(statuses),
 });
+
+faker.seed(1);
 
 export const citizen = Array.from({ length: 100 }, generateCitizen);

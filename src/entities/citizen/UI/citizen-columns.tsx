@@ -15,11 +15,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 const columnHelper = createColumnHelper<DataTableFeatures, Citizen>();
 
 export const columns = columnHelper.columns([
-  { accessorKey: "lastName", header: "ФИО" },
+  {
+    accessorKey: "lastName",
+    header: "ФИО",
+    cell: ({ row }) =>
+      `${row.original.lastName} ${row.original.firstName} ${row.original.middleName}`,
+  },
   {
     accessorKey: "birthDay",
     header: "Дата рождения",
@@ -27,9 +33,32 @@ export const columns = columnHelper.columns([
   },
   { accessorKey: "gender", header: "Пол" },
   { accessorKey: "city", header: "Город" },
-  { accessorKey: "phone", header: "Телефон" },
+  {
+    accessorKey: "phone",
+    header: "Телефон",
+    cell: ({ row }) => `+7 ${row.original.phone}`,
+  },
   { accessorKey: "email", header: "Email" },
-  { accessorKey: "status", header: "Статус" },
+  {
+    accessorKey: "status",
+    header: "Статус",
+    cell: ({ getValue }) => {
+      const status = getValue();
+      return (
+        <Badge
+          variant={
+            status === "Активный"
+              ? "green"
+              : status === "Неактивный"
+                ? "default"
+                : "yellow"
+          }
+        >
+          {status}
+        </Badge>
+      );
+    },
+  },
 
   columnHelper.display({
     id: "actions",

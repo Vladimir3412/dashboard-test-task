@@ -2,10 +2,9 @@ import { citizen } from "@/entities/citizen/model/mock";
 import CitizenTable from "@/entities/citizen/UI/citizen-table";
 import { ChartCard } from "@/shared/UI/chart-card";
 import { StatsCard } from "@/shared/UI/stats-card";
-import { Users } from "lucide-react";
+import { Activity, ChartSpline, Users, Zap } from "lucide-react";
 
 const Dashboard = () => {
-  console.log(citizen);
   const totalCount = citizen.length;
   const activeCitizen = citizen.filter((c) => c.status === "Активный").length;
 
@@ -41,7 +40,7 @@ const Dashboard = () => {
         <StatsCard
           title={activeCitizen}
           description="Активных"
-          icon={Users}
+          icon={Activity}
           trend="up"
           trendValue="+32%"
           hint="Количество активных граждан"
@@ -50,7 +49,7 @@ const Dashboard = () => {
         <StatsCard
           title={newThisMonth}
           description="Новые"
-          icon={Users}
+          icon={Zap}
           trend="down"
           trendValue="-9%"
           hint="Количество новых граждан за месяц"
@@ -59,7 +58,7 @@ const Dashboard = () => {
         <StatsCard
           title={avgAge}
           description="Средний возраст"
-          icon={Users}
+          icon={ChartSpline}
           trend="up"
           trendValue="+3%"
           hint="Средний возраст граждан (мужской и женский)"
