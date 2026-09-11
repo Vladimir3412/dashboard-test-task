@@ -37,7 +37,7 @@ const AppSidebar = () => {
                 tooltip={item.title}
                 className={cn(
                   " !text-sidebar-foreground group-data-[collapsible=icon]:justify-center gap-2",
-                  pathname === item.href
+                  pathname === item.href || pathname.startsWith(`${item.href}/`)
                     ? "!bg-sidebar-primary "
                     : "hover:bg-sidebar-border!",
                 )}

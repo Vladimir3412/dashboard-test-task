@@ -7,11 +7,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Citizen } from "@/shared/mocks/citizen";
-import { useTable, type ColumnDef } from "@tanstack/react-table";
+import {
+  useTable,
+  type ColumnDef,
+  type SortingState,
+} from "@tanstack/react-table";
 import { features, type DataTableFeatures } from "./data-table-features";
 import { Button } from "@/components/ui/button";
 import { MoveLeft, MoveRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface CitizenDataTableProps {
   columns: ColumnDef<DataTableFeatures, Citizen>[];
@@ -19,15 +24,24 @@ interface CitizenDataTableProps {
 }
 
 export function CitizenDataTable({ columns, data }: CitizenDataTableProps) {
+  const [rowSelection, setRowSelection] = useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useTable({
     features,
     data,
     columns,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    state: {
+      rowSelection,
+      sorting,
+    },
   });
 
   const navigate = useNavigate();
   return (
-    <div className="overflow-hidden rounded-lg border-1">
+    <div className="overflow-hidden rounded-lg border">
       <Table className=" w-full ">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -51,9 +65,20 @@ export function CitizenDataTable({ columns, data }: CitizenDataTableProps) {
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() => navigate(`${row.original.id}`)}
+                className="cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    onClick={(e) => {
+                      if (
+                        cell.column.id === "select" ||
+                        cell.column.id === "actions"
+                      ) {
+                        e.stopPropagation();
+                      }
+                    }}
+                  >
                     <table.FlexRender cell={cell} />
                   </TableCell>
                 ))}

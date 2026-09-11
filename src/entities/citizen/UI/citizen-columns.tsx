@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import type { DataTableFeatures } from "./data-table-features";
 import { FORMAT_DATETIME } from "@/shared/lib/dayjs";
 
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +16,34 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const columnHelper = createColumnHelper<DataTableFeatures, Citizen>();
 
 export const columns = columnHelper.columns([
+  columnHelper.display({
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        indeterminate={
+          table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  }),
+
   {
     accessorKey: "lastName",
     header: "ФИО",
@@ -28,7 +52,13 @@ export const columns = columnHelper.columns([
   },
   {
     accessorKey: "birthDay",
-    header: "Дата рождения",
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={column.getToggleSortingHandler()}>
+        Дата рождения
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+
     cell: ({ getValue }) => FORMAT_DATETIME(getValue()),
   },
   { accessorKey: "gender", header: "Пол" },
@@ -38,7 +68,17 @@ export const columns = columnHelper.columns([
     header: "Телефон",
     cell: ({ row }) => `+7 ${row.original.phone}`,
   },
-  { accessorKey: "email", header: "Email" },
+  {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={column.getToggleSortingHandler()}>
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "status",
     header: "Статус",
