@@ -17,7 +17,7 @@ const CitizenDetail = ({ user }: { user: Citizen }) => {
     <div>
       <div className="flex items-center mb-8 ">
         <Settings size={40} />
-        <div className="flex flex-col gap-1 ml-3 ">
+        <div className="flex flex-col gap-1 ml-3  ">
           <h1 className="text-2xl font-semibold text-foreground">
             Настройки профиля
           </h1>
@@ -27,7 +27,7 @@ const CitizenDetail = ({ user }: { user: Citizen }) => {
         </div>
       </div>
       <div className="grid grid-cols-[250px_1fr] gap-8">
-        <div className="flex flex-col gap-2 bg-card/50 rounded-xl p-4 w-full self-start ">
+        <div className="flex flex-col gap-2 bg-card/50 rounded-xl p-4 w-full self-start  ">
           <Button
             variant={activeTab === "personal" ? "outline" : "ghost"}
             onClick={() => setActiveTab("personal")}

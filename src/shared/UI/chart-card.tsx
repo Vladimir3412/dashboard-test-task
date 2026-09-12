@@ -15,7 +15,26 @@ import {
 import { ageGroups } from "@/entities/citizen/model/age-groups";
 import { citizen } from "@/entities/citizen/model/mock";
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Pie, PieChart, XAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Pie,
+  PieChart,
+  XAxis,
+} from "recharts";
+import type { Citizen } from "../mocks/citizen";
+import dayjs from "dayjs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 const activeCitizen = citizen.filter((c) => c.status === "Активный").length;
 const inactiveCitizen = citizen.filter((c) => c.status === "Неактивный").length;
@@ -23,7 +42,7 @@ const pendingCitizen = citizen.filter(
   (c) => c.status === "На рассмотрении",
 ).length;
 
-const chartData = [
+const chartDataDonut = [
   {
     status: "Активный",
     count: activeCitizen,
@@ -56,33 +75,84 @@ const chartConfigDonut = {
   },
 } satisfies ChartConfig;
 
-citizen.forEach((c) => {
-  const age = new Date().getFullYear() - new Date(c.birthDay).getFullYear();
-  if (age <= 25) ageGroups[0].count++;
-  else if (age <= 35) ageGroups[1].count++;
-  else if (age <= 45) ageGroups[2].count++;
-  else if (age <= 55) ageGroups[3].count++;
-  else if (age <= 65) ageGroups[4].count++;
-  else ageGroups[5].count++;
-});
+// citizen.forEach((c) => {
+//   const age = new Date().getFullYear() - new Date(c.birthDay).getFullYear();
+//   if (age <= 25) ageGroups[0].count++;
+//   else if (age <= 35) ageGroups[1].count++;
+//   else if (age <= 45) ageGroups[2].count++;
+//   else if (age <= 55) ageGroups[3].count++;
+//   else if (age <= 65) ageGroups[4].count++;
+//   else ageGroups[5].count++;
+// });
 
 const chartConfig = {
   count: {
     label: "Количество",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
+const getFilteredByDays = (citizen: Citizen[], days: number) => {
+  // const total = new Date()
+  // const nowDay = total.setDate(new Date().getDate() - days);
+
+  // return citizen.filter((c) => c.createdAt >= total)
+
+  const total = dayjs().subtract(days, "day");
+
+  return citizen.filter((c) => dayjs(c.createdAt).isAfter(total));
+};
+
 export function ChartCard() {
+  const [timeRange, setTimeRange] = useState<
+    "6 месяцев" | "3 месяца" | "1 месяц"
+  >("3 месяца");
+  const rangeToDays: Record<typeof timeRange, number> = {
+    "1 месяц": 30,
+    "3 месяца": 90,
+    "6 месяцев": 180,
+  };
+
+  const filteredCitizen = getFilteredByDays(citizen, rangeToDays[timeRange]);
   return (
-    <div className="flex grid-cols-2 w-full justify-between">
-      <Card className="w-4/5">
-        <CardHeader>
-          <CardTitle>Возраст граждан</CardTitle>
-          <CardDescription>Август - сентбярь 2026</CardDescription>
+    <div className="flex grid-cols-2 w-full justify-between ">
+      <Card className="w-4/5 pt-0 ">
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+          <div className="grid flex-1 gap-1">
+            <CardTitle>Возраст граждан</CardTitle>
+            <CardDescription>Август - сентбярь 2026</CardDescription>
+          </div>
+
+          <Select
+            value={timeRange}
+            onValueChange={(value) => {
+              if (value) {
+                setTimeRange(value);
+              }
+            }}
+          >
+            <SelectTrigger
+              className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+              aria-label="Select a value"
+            >
+              <SelectValue placeholder="Last 3 months" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl p-2">
+              <SelectItem value="6 месяцев" className="rounded-lg">
+                Последние 6 месяцев
+              </SelectItem>
+              <SelectItem value="3 месяца" className="rounded-lg">
+                Последние 3 месяца
+              </SelectItem>
+              <SelectItem value="1 месяц" className="rounded-lg">
+                Последниий месяц
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[250px] w-full">
-            <BarChart accessibilityLayer data={ageGroups}>
+            <AreaChart accessibilityLayer data={ageGroups}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="group"
@@ -96,8 +166,30 @@ export function ChartCard() {
                 cursor={{ fill: "rgba(255,255,255,0.95)" }}
                 content={<ChartTooltipContent indicator="line" />}
               />
-              <Bar dataKey="count" fill="var(--chart-1)" radius={4} />
-            </BarChart>
+
+              <defs>
+                <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="var(--chart-1)"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--chart-1)"
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              </defs>
+              <Area
+                dataKey="count"
+                fill="url(#fillDesktop)"
+                radius={4}
+                type="natural"
+                fillOpacity={0.4}
+                stroke="var(--chart-1)"
+              />
+            </AreaChart>
           </ChartContainer>
         </CardContent>
         <CardFooter className="flex-col items-start gap-2 text-sm">
@@ -126,7 +218,7 @@ export function ChartCard() {
                 content={<ChartTooltipContent hideLabel />}
               />
               <Pie
-                data={chartData}
+                data={chartDataDonut}
                 dataKey="count"
                 nameKey="status"
                 innerRadius={60}

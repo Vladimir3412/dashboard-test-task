@@ -18,14 +18,35 @@ export const StatsCard = ({
   color: "blue" | "green" | "purple" | "orange";
 }) => {
   const colorMap = {
-    blue: { bg: "bg-blue-500/20", text: "text-blue-400" },
-    green: { bg: "bg-green-500/20", text: "text-green-400" },
-    purple: { bg: "bg-purple-500/20", text: "text-purple-400" },
-    orange: { bg: "bg-orange-500/20", text: "text-orange-400" },
+    blue: {
+      bg: "bg-blue-500/20",
+      text: "text-blue-400",
+      gradient: "hsl(217, 70%, 50%)",
+    },
+    green: {
+      bg: "bg-green-500/20",
+      text: "text-green-400",
+      gradient: "hsl(142, 70%, 40%)",
+    },
+    purple: {
+      bg: "bg-purple-500/20",
+      text: "text-purple-400",
+      gradient: "hsl(280, 70%, 50%)",
+    },
+    orange: {
+      bg: "bg-orange-500/20",
+      text: "text-orange-400",
+      gradient: "hsl(25, 70%, 45%)",
+    },
   };
   const colors = colorMap[color];
   return (
-    <div className="flex p-4 flex-col gap-2 bg-card rounded-2xl border-2 ">
+    <div className="flex p-4 flex-col gap-2 bg-card rounded-3xl border relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:brightness-125">
+      <div
+        className="absolute -top-[40%] -left-[20%] w-44 h-44 rounded-full opacity-[14%] blur-[42px] pointer-events-none z-0"
+        style={{ background: colors.gradient }}
+      />
+
       <div className="flex justify-between items-center ">
         <div
           className={`w-10 h-10 rounded-xl flex items-center justify-center ${colors.bg}`}
