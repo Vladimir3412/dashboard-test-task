@@ -1,75 +1,46 @@
-# React + TypeScript + Vite
+# Реестр граждан — Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Тестовое задание: административная панель для учёта граждан с картотекой, детальными карточками и аналитикой.
 
-Currently, two official plugins are available:
+## Архитектура
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Проект построен по методологии **Feature-Sliced Design (FSD)**:
 
-## React Compiler
+- `app/` — инициализация приложения, layouts, роутинг
+- `pages/` — страницы (Dashboard, Картотека, Детали гражданина)
+- `features/` — функциональные блоки (табы карточки гражданина)
+- `entities/` — бизнес-сущности (модель Citizen, колонки таблицы, UI-компоненты)
+- `shared/` — переиспользуемые утилиты, моки, константы, UI-кит
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Стек
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Frontend:** React 19, TypeScript, Vite, React Router
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**UI:** Tailwind CSS v4, shadcn/ui, Base UI
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Данные:** TanStack Table, Recharts 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Моки:** @faker-js/faker
 
-```
+**Прочее:** dayjs
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Функционал
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Dashboard** — статистика по гражданам (карточки со статистикой, динамика регистраций за период, распределение по статусам)
+- **Картотека граждан** — таблица с поиском, сортировкой, пагинацией
+- **Карточка гражданина** — 4 раздела:
+  - Личные данные (редактируемая форма, сохранение в localStorage)
+  - Семья, Образование, Работа — связанные сущности (read-only)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Запуск
 
-```
+\`\`\`bash
+npm install
+npm run dev
+\`\`\`
+
+Откроется на `http://localhost:5173` 
+
+Моковые данные генерируются один раз при загрузке
+
