@@ -52,8 +52,8 @@ export const columns = columnHelper.columns([
   },
   {
     accessorKey: "birthDay",
-    header: ({ column }) => (
-      <Button variant="ghost" onClick={column.getToggleSortingHandler()}>
+    header: (props) => (
+      <Button variant="ghost" onClick={props.column.getToggleSortingHandler()}>
         Дата рождения
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -82,6 +82,7 @@ export const columns = columnHelper.columns([
   {
     accessorKey: "status",
     header: "Статус",
+    filterFn: "includesString",
     cell: ({ getValue }) => {
       const status = getValue();
       return (

@@ -55,7 +55,7 @@ export const generateCitizen = (): Citizen => ({
   phone: faker.phone.number(),
   city: faker.location.city(),
   address: faker.location.streetAddress(),
-  createdAt: faker.date.recent({ days: 365 }),
+  createdAt: faker.date.recent({ days: 180 }),
   status: faker.helpers.arrayElement(statuses),
   familyMembers: Array.from(
     { length: faker.number.int({ min: 0, max: 3 }) },
@@ -73,4 +73,4 @@ export const generateCitizen = (): Citizen => ({
 
 faker.seed(1);
 
-export const citizen = Array.from({ length: 100 }, generateCitizen);
+export const citizen = Array.from({ length: 350 }, generateCitizen);

@@ -1,13 +1,13 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import EducationTab from "@/features/citizen/education-tab";
+import FamilyTab from "@/features/citizen/family-tab";
+import JobTab from "@/features/citizen/job-tab";
 import PersonalTab from "@/features/citizen/personal-tab";
 import type { Citizen } from "@/shared/mocks/citizen";
-import { Check, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import FamilyTab from "@/features/citizen/family-tab";
-import EducationTab from "@/features/citizen/education-tab";
-import JobTab from "@/features/citizen/job-tab";
 
 const CitizenDetail = ({ user }: { user: Citizen }) => {
   const [activeTab, setActiveTab] = useState<
