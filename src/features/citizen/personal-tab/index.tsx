@@ -83,7 +83,7 @@ const PersonalTab = ({ user }: { user: Citizen }) => {
             <FormField
               placeholder="+7"
               label="Телефон"
-              value={formData.phone}
+              value={`+7 ${formData.phone}`}
               onValueChange={(v) =>
                 setFormData((prev) => ({ ...prev, phone: v }))
               }

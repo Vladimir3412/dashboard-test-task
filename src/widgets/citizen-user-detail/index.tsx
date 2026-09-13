@@ -60,43 +60,62 @@ const CitizenDetail = ({ user }: { user: Citizen }) => {
 
         {activeTab === "personal" && (
           <div className="flex flex-col gap-3">
-            <div className="bg-card rounded-xl p-5 border">
-              <div className="flex gap-3 items-center mb-4">
-                <Avatar className="size-20">
-                  <AvatarImage src="https://github.com/Vladimir3412.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col gap-1">
-                  <p className="font-medium text-foreground">
-                    {user.firstName} {user.lastName}
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="xs"
-                    className="cursor-pointer"
-                  >
-                    Изменить фото
-                  </Button>
+            <div className="relative rounded-xl p-5 border border-white/[0.08] overflow-hidden bg-card glass-panel">
+              <div
+                className="absolute -top-32 -right-52 w-72 h-72 rounded-full opacity-10 blur-[60px] pointer-events-none z-0"
+                style={{ background: "hsl(250, 80%, 50%)" }}
+              />
+
+              <div className="relative z-10">
+                <div className="flex gap-3 items-center mb-4">
+                  <Avatar className="size-20">
+                    <AvatarImage src="https://github.com/Vladimir3412.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col gap-1">
+                    <p className="font-medium text-foreground">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      className="cursor-pointer"
+                    >
+                      Изменить фото
+                    </Button>
+                  </div>
                 </div>
+                <Separator className="mb-4  h-px" />
+                <PersonalTab user={user} />
               </div>
-              <Separator className="mb-4  h-px" />
-              <PersonalTab user={user} />
             </div>
           </div>
         )}
         {activeTab === "family" && (
-          <div className="bg-card rounded-xl p-6 border">
+          <div className="border border-white/[0.08] overflow-hidden bg-card rounded-xl p-6 relative glass-panel ">
+            <div
+              className="absolute -top-20 -right-24 w-48 h-48 rounded-full opacity-10 blur-[60px] pointer-events-none z-0"
+              style={{ background: "hsl(250, 80%, 50%)" }}
+            />
             <FamilyTab user={user} />
           </div>
         )}
 
         {activeTab === "education" && (
-          <div className="bg-card rounded-xl p-6 border">
+          <div className="border border-white/[0.08] overflow-hidden bg-card rounded-xl p-6 relative glass-panel">
+            <div
+              className="absolute -top-16 -right-24 w-48 h-48 rounded-full opacity-10 blur-[60px] pointer-events-none z-0"
+              style={{ background: "hsl(250, 80%, 50%)" }}
+            />
             <EducationTab user={user} />
           </div>
         )}
         {activeTab === "job" && (
-          <div className="bg-card rounded-xl p-6 border">
+          <div className="border border-white/[0.08] overflow-hidden bg-card rounded-xl p-6 relative glass-panel">
+            <div
+              className="absolute -top-16 -right-24 w-48 h-48 rounded-full opacity-10 blur-[60px] pointer-events-none z-0"
+              style={{ background: "hsl(250, 80%, 50%)" }}
+            />
             <JobTab user={user} />
           </div>
         )}

@@ -11,7 +11,7 @@ const CitizenDetailPage = () => {
 
   return (
     <PageLayout title={title}>
-      {user ? <CitizenDetail user={user} /> : <div>Гражданин не найден</div>}
+      {user ? <CitizenDetail user={user} /> : <p>Гражданин не найден</p>}
     </PageLayout>
   );
 };
